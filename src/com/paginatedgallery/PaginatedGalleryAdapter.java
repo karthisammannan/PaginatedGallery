@@ -17,6 +17,8 @@ package com.paginatedgallery;
 
 import java.util.List;
 
+import com.paginatedgallery.PaginatedGallery.OnItemClickListener;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
@@ -48,14 +50,6 @@ public class PaginatedGalleryAdapter extends PagerAdapter {
     	screenWidth = ( (WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
     }
     
-    public interface OnItemClickListener {
-		void onItemClick(View view, int position);
-	}
-	
-	public void setOnItemClickListener(OnItemClickListener listener) {
-		mItemClickListener = listener;
-	}    
-    
     @Override
     public int getCount() {
         return viewPages;
@@ -65,16 +59,18 @@ public class PaginatedGalleryAdapter extends PagerAdapter {
 	public Object instantiateItem(View collection, int position) {
 		LinearLayout layout = new LinearLayout(context);
 		layout.setOrientation(LinearLayout.HORIZONTAL);
+		layout.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, screenWidth/viewsPerPage));
 		
-		layout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-//		layout.setBackgroundColor(context.getResources().getColor(android.R.color.white));
-//		layout.setBackgroundResource(android.R.color.white);
 		int size = images.size();
+		
+//		Log.i(TAG, "Position: "+position + " , Size : "+size);
 		for (int i = 0 ; i < viewsPerPage; i++ ) {
 			ImageView imageView = new ImageView(context);
 			final int index = position + (position * (viewsPerPage - 1))+ i;
+			Log.i(TAG, "Index: "+index + " , Size : "+size);
 			if (index < size ) {
 				imageView.setImageDrawable(images.get(index));
+//				imageView.setTag(index);
 				imageView.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -91,6 +87,7 @@ public class PaginatedGalleryAdapter extends PagerAdapter {
 		}
 		
 		((ViewPager) collection).addView(layout);
+		
 		return layout;
 	}
 	
@@ -101,7 +98,7 @@ public class PaginatedGalleryAdapter extends PagerAdapter {
 	
 	@Override
 	public boolean isViewFromObject(View view, Object object) {
-		return view==((LinearLayout)object);
+		return view == (LinearLayout) object;
 	}
 
 	@Override
@@ -123,6 +120,12 @@ public class PaginatedGalleryAdapter extends PagerAdapter {
 		return screenWidth/viewsPerPage;
 	}
 	
-	
+	public interface OnItemClickListener {
+		void onItemClick(View view, int position);
+	}
+		
+	public void setOnItemClickListener(OnItemClickListener listener) {
+		mItemClickListener = listener;
+	}
 	
 }

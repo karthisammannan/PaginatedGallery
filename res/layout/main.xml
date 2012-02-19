@@ -23,5 +23,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello" />
+    
+    <!-- <com.paginatedgallery.PaginatedGallery
+        android:id="@+id/paginatedGallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /> -->
+    
+     <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello" />	`121
 
 </LinearLayout>
