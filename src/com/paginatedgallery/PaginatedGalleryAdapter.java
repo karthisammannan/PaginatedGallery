@@ -17,7 +17,7 @@ package com.paginatedgallery;
 
 import java.util.List;
 
-import com.paginatedgallery.PaginatedGallery.OnItemClickListener;
+import com.github.ignition.core.widgets.RemoteImageView;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -37,17 +37,45 @@ public class PaginatedGalleryAdapter extends PagerAdapter {
 
 	private int viewPages;
 	private int viewsPerPage;
-	private static List<Drawable> images;
+	private static List<?> images;
+	private boolean isImageUrl = false;
 	private Context context;
 	private int screenWidth;
+	private Drawable errorDrawable;
 	private OnItemClickListener mItemClickListener;
     
+	/**
+	 * 
+	 * @param context the Context of the gallery
+	 * @param list the Drawables to display in the gallery
+	 * @param viewsPerPage number of views per page in the gallery
+	 */
     public PaginatedGalleryAdapter ( final Context context, final List<Drawable> list, final int viewsPerPage ) {
     	this.context = context;
     	this.viewsPerPage = viewsPerPage;
     	viewPages = (int) Math.ceil((double) list.size()/viewsPerPage );
     	images = list;
     	screenWidth = ( (WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+    	if (String.class.isInstance(list.get(0))) {
+    		isImageUrl = true;
+    	}
+    }
+    
+    /**
+     * 
+     * @param context the Context of the gallery
+     * @param list List of URLs to load images from
+     * @param viewsPerPage number of views per page in the gallery
+     * @param errorDrawable Drawable to display while the images are loading and if there is an error
+     */
+    public PaginatedGalleryAdapter ( final Context context, final List<String> list, final int viewsPerPage, Drawable errorDrawable  ) {
+    	this.context = context;
+    	this.viewsPerPage = viewsPerPage;
+    	this.errorDrawable = errorDrawable;
+    	viewPages = (int) Math.ceil((double) list.size()/viewsPerPage );
+    	images = list;
+    	screenWidth = ( (WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+		isImageUrl = true;
     }
     
     @Override
@@ -65,11 +93,17 @@ public class PaginatedGalleryAdapter extends PagerAdapter {
 		
 //		Log.i(TAG, "Position: "+position + " , Size : "+size);
 		for (int i = 0 ; i < viewsPerPage; i++ ) {
-			ImageView imageView = new ImageView(context);
 			final int index = position + (position * (viewsPerPage - 1))+ i;
 			Log.i(TAG, "Index: "+index + " , Size : "+size);
 			if (index < size ) {
-				imageView.setImageDrawable(images.get(index));
+				View imageView;
+				if (isImageUrl) {
+					imageView = new RemoteImageView(context, (String) images.get(index), errorDrawable, errorDrawable, true);
+				} else {
+					imageView = new ImageView(context);
+					( (ImageView) imageView).setImageDrawable((Drawable) images.get(index));
+				}
+				
 //				imageView.setTag(index);
 				imageView.setOnClickListener(new OnClickListener() {
 					
@@ -80,10 +114,10 @@ public class PaginatedGalleryAdapter extends PagerAdapter {
 						}
 					}
 				});
+				imageView.setLayoutParams(new LayoutParams(screenWidth/viewsPerPage, screenWidth/viewsPerPage));
+				imageView.setPadding(10, 10, 10, 10);
+				layout.addView(imageView);
 			}
-			imageView.setLayoutParams(new LayoutParams(screenWidth/viewsPerPage, screenWidth/viewsPerPage));
-			imageView.setPadding(10, 10, 10, 10);
-			layout.addView(imageView);
 		}
 		
 		((ViewPager) collection).addView(layout);
