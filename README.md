@@ -5,9 +5,8 @@ An implementation of a Paginated image gallery for Android. It extends the ViewP
 from the Android support v4 library and Jake Wharton's [`CirclePageIndicator`][1].
 
 Class automatically resizes the drawables to fit on screen according to the number of 
-views required per page. It also includes an `OnClickListener`.
-
-Currently implementation only supports initialization through code.
+views required per page. It also includes an `OnClickListener` (although this is through the adapter and not through the gallery widget
+it should be).
 
 
 Classes
@@ -17,6 +16,7 @@ The following have been added so far. You are welcome to fork or suggest improve
 
 * `PaginatedGallery` -- a Paginated Gallery similar to iOS with page indicators and click listener (uses code imported from [ViewPagerIndicator][1] lib)
 * `PaginatedGalleryAdapter` -- Adapter for the gallery
+* `RemoteImageView` -- the background image loader from the Matthias Käppler's awesome [Ignition][2] library
  
 Developed By
 ------------
@@ -33,7 +33,7 @@ Want to contribute? Great! Fork and if you have suggestions, contact me via GitH
 2. Create a branch (`git checkout -b a-droid-lib`)
 3. Commit your changes (`git commit -am "Added Something"`)
 4. Push to the branch (`git push origin a-droid-lib`)
-5. Create an [Issue][2] with a link to your branch
+5. Create an [Issue][3] with a link to your branch
 
 License
 =======
@@ -56,4 +56,5 @@ License
 
 
 [1]: https://github.com/JakeWharton/Android-ViewPagerIndicator/
+[2]: https://github.com/kaeppler/ignition
 [2]: http://github.com/github/markup/issues
