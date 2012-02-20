@@ -57,4 +57,4 @@ License
 
 [1]: https://github.com/JakeWharton/Android-ViewPagerIndicator/
 [2]: https://github.com/kaeppler/ignition
-[2]: http://github.com/github/markup/issues
+[3]: http://github.com/github/markup/issues
