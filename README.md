@@ -1,5 +1,5 @@
-Paginated Gallery for Android
-=============================
+Paginated Gallery for Android [DEPRECATED - don't copy iOS on Android]
+==========================================
 
 An implementation of a Paginated image gallery for Android. It extends the ViewPager class 
 from the Android support v4 library and Jake Wharton's [`CirclePageIndicator`][1].
